@@ -1,14 +1,20 @@
-from aiogram import Router
+from aiogram import Router, types, F
 from aiogram.types import Message
 from aiogram.filters import Command
+
+import kb
+import text
 
 router = Router()
 
 
 @router.message(Command('start'))
 async def start_handler(msg: Message):
-    await msg.answer('Hi! I am know your ID. Tell for you?')
+    await msg.answer(text.greet.format(name=msg.from_user.full_name), reply_markup=kb.menu)
 
-@router.message()
-async def message_handler(msg: Message):
-    await msg.answer(f'Your ID: {msg.from_user.id}')
+
+@router.message(F.text == 'Menu')
+@router.message(F.text == 'Back to menu')
+@router.message(F.text == 'Back to menu')
+async def menu(msg: Message): 
+    await msg.answer(text.menu, reply_markup=kb.menu)
